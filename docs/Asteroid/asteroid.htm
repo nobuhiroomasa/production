@@ -246,18 +246,28 @@
         if (isNaN(timer)) {
             ctx.fillText('GAME OVER', 320, 150);
             ctx.drawImage(bang, ship.getX() - 50, ship.getY() - 50, 200, 200);
+
+            document.getElementById('final-score').innerHTML = 'Final Score: ' + score;
         }
     }
     </script>
 </head>
 
 <body onload="init()">
-    <div>
-        <canvas id="canvas" width="800" height="800"></canvas>
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; text-align: center;">
+        <div>
+            <canvas id="canvas" width="800" height="800"></canvas>
+        </div>
+        <div id="score-container" style="margin-left: 20px;">
+            <div id="current-score" style="font-size: 20px; color: green;">Score: 0</div>
+            <div id="final-score" style="font-size: 24px; color: red; margin-top: 20px;"></div>
+        </div>
     </div>
+
     <img id="ship" src="ship.png" style="display:none;" />
     <img id="bg" src="bg.png" style="display:none;" />
     <img id="rock" src="rock.png" style="display:none;" />
     <img id="bang" src="bang.png" style="display:none;" />
 </body>
+
 </html>

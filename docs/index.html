@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="firebaseConfig.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- キャッシュを無効にするためのメタタグ -->
@@ -8,6 +11,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>ミニゲーム集</title>
+    <link rel="stylesheet" href="Top.css">
     <!-- Google Fontsの追加 -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -147,7 +151,16 @@
             <li><a href="../demo-repository-main/SnakeBite/SnakeBite.html">SnakeBite</a></li>
             <li><a href="../demo-repository-main/Tetris/Tetris.htm">Tetris</a></li>
         </ul>
-        <div class="account-name" id="account-name">A</div> <!-- アカウント名を表示する部分 -->
+        <div class="account-container">
+            <div class="account-name" id="account-name">A</div> <!-- アカウント名を表示する部分 -->
+            <div class="dropdown-menu" id="dropdown-menu">
+                <div class="nickname-input">
+                    <input type="text" id="nickname" placeholder="ニックネームを入力" />
+                    <button id="save-nickname">保存</button>
+                </div>
+            </div>
+        </div>
+        
     </header>
 
     <h1>ミニゲーム集へようこそ！</h1>
@@ -190,7 +203,7 @@
         <button id="signup-button" class="auth-button">新規登録</button>
     </div>
 
-    <script src="firebaseConfig.js"></script>
+    
     <script>
 
 
@@ -230,6 +243,29 @@ window.onload = () => {
                 });
             };
             signupButton.style.display = 'none';
+        // アカウント名をクリックしたときにドロップダウンメニューをトグル
+        document.getElementById('account-name').onclick = () => {
+            const dropdownMenu = document.getElementById('dropdown-menu');
+            dropdownMenu.style.display = dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '' ? 'block' : 'none';
+        };
+        
+        // ニックネームの更新処理
+        document.getElementById('nickname-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newNickname = document.getElementById('nickname-input').value;
+            if (newNickname) {
+                user.updateProfile({
+                    displayName: newNickname
+                }).then(() => {
+                    console.log("ニックネームが更新されました:", newNickname);
+                    document.getElementById('account-name').innerText = newNickname.charAt(0); // 表示を更新
+                    alert("ニックネームが更新されました！");
+                    document.getElementById('dropdown-menu').style.display = 'none'; // メニューを閉じる
+                }).catch(error => {
+                    console.error("ニックネーム更新エラー:", error);
+                });
+            }
+        });
         } else {
             // ログインしていない場合
             accountName.style.display = 'none';
@@ -245,7 +281,44 @@ window.onload = () => {
 
         }
     });
+    document.getElementById('save-nickname').onclick = function() {
+            const nickname = document.getElementById('nickname').value;
+            const user = firebase.auth().currentUser; // 現在のユーザーを取得
+
+            if (user) {
+                const userEmail = user.email; // ユーザーのEメールを取得
+
+                // Firestoreにデータを保存
+                db.collection('user_name').add({
+                    nickname: nickname,
+                    email: userEmail,
+                })
+                .then(() => {
+                    console.log("ニックネームが保存されました");
+                    document.getElementById('nickname').value = ""; // 入力フィールドをクリア
+                    document.querySelector('.nickname-input').style.display = 'none'; // 入力フィールドを非表示
+                })
+                .catch((error) => {
+                    console.error("エラー:", error);
+                });
+            } else {
+                console.log("ユーザーがログインしていません");
+            }
+        };
+
 };
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            // ログインしている場合
+            console.log("User is logged in:", user);
+            document.getElementById('account-name').innerText = user.displayName ? user.displayName.charAt(0) : user.email.charAt(0);
+        } else {
+            // ログインしていない場合
+            console.log("No user is logged in");
+        }
+    });
+
+
     </script>
 </body>
 </html>
