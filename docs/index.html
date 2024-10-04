@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,25 +18,29 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
     <script src="firebaseConfig.js"></script>
-
+    <link rel="stylesheet" href="/docs/Top.css">
 </head>
+
+
+
 <body>
 
     <header>
         <ul class="header">
-            <li><a href="../demo-repository-main/Asteroid/asteroid.htm">Asteroid</a></li>
-            <li><a href="../demo-repository-main/Blocks/blocks.htm">Blocks</a></li>
-            <li><a href="../demo-repository-main/MineSweeper/minesweeper.html">MineSweeper</a></li>
-            <li><a href="../demo-repository-main/Cave/cave.html">Cave</a></li>
-            <li><a href="../demo-repository-main/MissileCommand/missilecommand.htm">MissileCommand</a></li>
-            <li><a href="Qix/Qix.htm">Qix</a></li>
-            <li><a href="../demo-repository-main/Invader/SpaceInvader.htm">Invader</a></li>
-            <li><a href="../demo-repository-main/Memorizer/memorizer.html">Memorizer</a></li>
-            <li><a href="../demo-repository-main/SnakeBite/SnakeBite.html">SnakeBite</a></li>
-            <li><a href="../demo-repository-main/Tetris/Tetris.htm">Tetris</a></li>
+            <li><a href="/docs//Asteroid/asteroid.htm">Asteroid</a></li>
+            <li><a href="/docs/Blocks/blocks.htm">Blocks</a></li>
+            <li><a href="/docs//MineSweeper/minesweeper.html">MineSweeper</a></li>
+            <li><a href="/docs//Cave/cave.html">Cave</a></li>
+            <li><a href="/docs//MissileCommand/missilecommand.htm">MissileCommand</a></li>
+            <li><a href="/docs/Qix/Qix.htm">Qix</a></li>
+            <li><a href="/docs//Invader/SpaceInvader.htm">Invader</a></li>
+            <li><a href="/docs//Memorizer/memorizer.html">Memorizer</a></li>
+            <li><a href="/docs//SnakeBite/SnakeBite.html">SnakeBite</a></li>
+            <li><a href="/docs/Tetris/Tetris.htm">Tetris</a></li>
+            <li><a href="/docs/index.html">Top</a></li>
         </ul>
         <div class="account-container">
-            <div class="account-name" id="account-name">A</div> <!-- アカウント名を表示する部分 -->
+            <div class="account-name" id="account-name"></div> <!-- アカウント名を表示する部分 -->
             <div class="dropdown-menu" id="dropdown-menu">
                 <div class="nickname-input">
                     <input type="text" id="nickname" placeholder="ニックネームを入力" />
@@ -45,6 +50,7 @@
         </div>
         
     </header>
+
 
     <h1>ミニゲーム集へようこそ！</h1>
 
@@ -173,6 +179,7 @@ window.onload = () => {
             console.log("No user is logged in");
         }
     });
+
     document.getElementById('save-nickname').onclick = function() {
         const nickname = document.getElementById('nickname').value;
         const user = firebase.auth().currentUser; // 現在のユーザーを取得
@@ -196,7 +203,7 @@ window.onload = () => {
             console.log("ユーザーがログインしていません");
         }
     };
-
+    
     </script>
 </body>
 </html>
