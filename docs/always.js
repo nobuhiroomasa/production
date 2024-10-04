@@ -1,4 +1,4 @@
-fetch('/docs/always.html')
+fetch('/production/always.html')
     .then(response => response.text())
     .then(data => {
         document.getElementById('always-container').innerHTML = data;
