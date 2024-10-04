@@ -203,9 +203,11 @@
         <button id="signup-button" class="auth-button">新規登録</button>
     </div>
 
-    
+    <script type="module">
+    import firebase from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import "firebase/firestore";
+    </script>
     <script>
-
 
 // ユーザーのログイン状態を監視
 window.onload = () => {
@@ -249,10 +251,8 @@ window.onload = () => {
             dropdownMenu.style.display = dropdownMenu.style.display === 'none' || dropdownMenu.style.display === '' ? 'block' : 'none';
         };
         
-        // ニックネームの更新処理
-        document.getElementById('nickname-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const newNickname = document.getElementById('nickname-input').value;
+
+            const newNickname = document.getElementById('nickname').value;
             if (newNickname) {
                 user.updateProfile({
                     displayName: newNickname
@@ -265,7 +265,7 @@ window.onload = () => {
                     console.error("ニックネーム更新エラー:", error);
                 });
             }
-        });
+        
         } else {
             // ログインしていない場合
             accountName.style.display = 'none';

@@ -1,5 +1,6 @@
 // firebaseConfig.js
 
+
 // Firebaseの初期化
 const firebaseConfig = {
     apiKey: "AIzaSyBiHjBk7rMiz4Fw7IoLPpFo1FTrQxqy_58",
@@ -11,3 +12,6 @@ const firebaseConfig = {
 
 // Firebaseの初期化
 firebase.initializeApp(firebaseConfig);
+
+
+
