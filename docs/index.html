@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
-    <script src="firebaseConfig.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- キャッシュを無効にするためのメタタグ -->
@@ -14,127 +11,13 @@
     <link rel="stylesheet" href="Top.css">
     <!-- Google Fontsの追加 -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2); /* 背景にグラデーションを追加 */
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
+    <!-- Firebase SDKの読み込み -->
+    <!-- FirebaseのAuthとFirestoreモジュールの読み込み -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="firebaseConfig.js"></script>
 
-        header {
-            background-color: #333;
-            padding: 10px 20px; /* 上下の余白を少し減らす */
-            display: flex;
-            justify-content: space-between; /* 左右の要素を配置 */
-            align-items: center; /* 中央揃え */
-        }
-
-        .header {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-wrap: wrap; /* 要素が折り返すように */
-            justify-content: center; /* 中央揃え */
-            max-width: 100%; /* ヘッダーの最大幅を設定 */
-            overflow: hidden; /* はみ出す要素を非表示 */
-        }
-
-        .header li {
-            margin: 0 10px; /* マージンを調整 */
-        }
-
-        .header a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 15px;
-            padding: 10px 15px; /* パディングを調整 */
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .header a:hover {
-            background-color: #555;
-        }
-
-        .account-name {
-            background-color: #4285F4; /* Googleの青色 */
-            color: #fff; /* 白い文字 */
-            border-radius: 50%; /* 丸くする */
-            width: 50px; /* 幅を50pxに調整 */
-            height: 50px; /* 高さを50pxに調整 */
-            display: flex;
-            justify-content: center; /* 中央揃え */
-            align-items: center; /* 中央揃え */
-            font-weight: bold; /* 太字 */
-            font-size: 24px; /* フォントサイズを24pxに調整 */
-            margin-left: 10px; /* マージンを調整 */
-        }
-
-        h1 {
-            color: #333;
-            margin-top: 50px;
-            font-size: 2.5rem;
-            letter-spacing: 2px;
-            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2); /* タイトルに軽い影を追加 */
-        }
-
-        .game-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* レスポンシブなグリッドレイアウト */
-            gap: 20px;
-            max-width: 1000px;
-            margin: 50px auto;
-            padding: 0 20px;
-        }
-
-        .game-item {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s; /* ホバー時のアニメーション */
-        }
-
-        .game-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .game-item a {
-            color: #333;
-            text-decoration: none;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-
-        .game-item a:hover {
-            color: #007BFF;
-        }
-
-        .auth-buttons {
-            margin: 30px 0;
-        }
-
-        .auth-button {
-            padding: 10px 20px;
-            margin: 5px;
-            border: none;
-            border-radius: 5px;
-            background-color: #333;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-size: 1rem;
-        }
-
-        .auth-button:hover {
-            background-color: #555;
-        }
-    </style>
 </head>
 <body>
 
@@ -203,10 +86,7 @@
         <button id="signup-button" class="auth-button">新規登録</button>
     </div>
 
-    <script type="module">
-    import firebase from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-    import "firebase/firestore";
-    </script>
+    
     <script>
 
 // ユーザーのログイン状態を監視
@@ -281,30 +161,6 @@ window.onload = () => {
 
         }
     });
-    document.getElementById('save-nickname').onclick = function() {
-            const nickname = document.getElementById('nickname').value;
-            const user = firebase.auth().currentUser; // 現在のユーザーを取得
-
-            if (user) {
-                const userEmail = user.email; // ユーザーのEメールを取得
-
-                // Firestoreにデータを保存
-                db.collection('user_name').add({
-                    nickname: nickname,
-                    email: userEmail,
-                })
-                .then(() => {
-                    console.log("ニックネームが保存されました");
-                    document.getElementById('nickname').value = ""; // 入力フィールドをクリア
-                    document.querySelector('.nickname-input').style.display = 'none'; // 入力フィールドを非表示
-                })
-                .catch((error) => {
-                    console.error("エラー:", error);
-                });
-            } else {
-                console.log("ユーザーがログインしていません");
-            }
-        };
 
 };
     firebase.auth().onAuthStateChanged(function(user) {
@@ -317,7 +173,29 @@ window.onload = () => {
             console.log("No user is logged in");
         }
     });
+    document.getElementById('save-nickname').onclick = function() {
+        const nickname = document.getElementById('nickname').value;
+        const user = firebase.auth().currentUser; // 現在のユーザーを取得
 
+        if (user) {
+            const userEmail = user.email; // ユーザーのEメールを取得
+
+            // Firestoreにデータを保存
+            db.collection('user_name').add({
+                nickname: nickname,
+                email: userEmail,
+            })
+            .then(() => {
+                console.log("ニックネームが保存されました");
+                document.getElementById('nickname').value = ""; // 入力フィールドをクリア
+            })
+            .catch((error) => {
+                console.error("エラー:", error);
+            });
+        } else {
+            console.log("ユーザーがログインしていません");
+        }
+    };
 
     </script>
 </body>
